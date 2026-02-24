@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Security Verification (iframe-ready)</title>
+    <!-- Include reCAPTCHA API -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        @font-face {
+            font-family: 'Proxima Nova';
+            src: url('fonts/proximanova_regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Proxima Nova';
+            src: url('fonts/proximanova_light.otf') format('opentype');
+            font-weight: 300;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Proxima Nova';
+            src: url('fonts/proximanova_bold.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'Proxima Nova', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .verification-container {
+            max-width: 600px;
+            width: 90%;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            margin: 20px;
+        }
+
+        .logo {
+            margin-bottom: 30px;
+        }
+
+        .logo img {
+            max-width: 150px;
+            height: auto;
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #0A2540;
+            margin-bottom: 16px;
+        }
+
+        .description {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #4a5568;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .highlight {
+            background-color: #f0f7ff;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: left;
+            border-left: 4px solid #0069ff;
+        }
+
+        .highlight-title {
+            font-weight: 700;
+            color: #0069ff;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .captcha-container {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .continue-button {
+            background-color: #0069ff;
+            color: white;
+            border: none;
+            border-radius: 99px;
+            padding: 14px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 20px;
+            font-family: 'Proxima Nova', sans-serif;
+            width: 100%;
+            max-width: 300px;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .continue-button.enabled {
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        .continue-button:hover {
+            background-color: #0052cc;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #718096;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .verification-container {
+                padding: 30px 20px;
+                width: 95%;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .description, .highlight {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .verification-container {
+                padding: 25px 15px;
+                border-radius: 6px;
+            }
+
+            .logo img {
+                max-width: 120px;
+            }
+
+            .continue-button {
+                padding: 12px 24px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="verification-container">
+        <h1>Security Verification</h1>
+
+        <div class="description">
+            <p>Before you can access our scheduling system, we need to verify that you're a human and not an automated bot. This helps us maintain a secure environment for all our users.</p>
+        </div>
+
+        <div class="highlight">
+            <div class="highlight-title">Why do we need this verification?</div>
+            <p>This security measure helps us:</p>
+            <ul>
+                <li>Protect our users' personal information</li>
+                <li>Prevent automated systems from abusing our services</li>
+                <li>Maintain the quality and reliability of our scheduling platform</li>
+                <li>Ensure only legitimate users can access the system</li>
+            </ul>
+            <p>Your information is secure and this verification is only used to distinguish humans from bots. We appreciate your understanding and cooperation.</p>
+        </div>
+
+        <div class="captcha-container">
+            <!-- IMPORTANT: this iframe page must be registered in reCAPTCHA admin as an allowed domain (e.g. storage.googleapis.com) -->
+            <div class="g-recaptcha" data-sitekey="6LdqWHYsAAAAAAzRJnHzt60b7I8pdbVvIyAzJC4B" data-callback="onRecaptchaSuccess"></div>
+        </div>
+
+        <button id="continue-btn" class="continue-button" disabled>Continue to Scheduler</button>
+
+        <div class="footer">
+            <p>This site is protected by reCAPTCHA and the Google 
+                <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> and
+                <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a> apply.
+            </p>
+        </div>
+    </div>
+
+    <script>
+    /*
+      Modified to work as a reusable iframe captcha provider.
+      How it works (summary):
+        - Parent embeds this file in an <iframe src=".../index.html?nonce=xyz&allowed_origin=https://parent.example.com">
+        - When user completes reCAPTCHA, this iframe posts a message to the parent with {type:'recaptcha-token', token, nonce}
+        - Parent must verify event.origin and forward token to its backend for server-side verification with Google's secret key.
+      Security notes:
+        - For production, include allowed_origin in the iframe query string (or use a server-issued nonce)
+        - This file will currently postMessage to the parent origin if it is present and matches the allowed_origin query param.
+        - If allowed_origin is not provided, it will use "*" as targetOrigin — acceptable for testing but NOT recommended for production.
+    */
+
+    // Helper: read query params
+    function getQueryParams() {
+        const params = {};
+        const qs = location.search.replace(/^\?/, '');
+        if (!qs) return params;
+        qs.split('&').forEach(pair => {
+            const [k, v] = pair.split('=').map(decodeURIComponent);
+            if (k) params[k] = v || '';
+        });
+        return params;
+    }
+
+    const qs = getQueryParams();
+    const nonce = qs.nonce || null;
+    const allowedOrigin = qs.allowed_origin || null; // example: https://your-site.com
+
+    // When reCAPTCHA completes, this will be called by Google
+    function onRecaptchaSuccess(token) {
+        try {
+            // enable local continue button UX as before
+            const btn = document.getElementById('continue-btn');
+            if (btn) {
+                btn.disabled = false;
+                btn.classList.add('enabled');
+            }
+
+            // Build message
+            const msg = {
+                type: 'recaptcha-token',
+                token: token,
+                nonce: nonce,
+                timestamp: Date.now()
+            };
+
+            // Determine targetOrigin for postMessage
+            let target = '*';
+            if (allowedOrigin) {
+                target = allowedOrigin;
+            } else if (window.parent && window.parent.origin) {
+                // window.parent.origin is not standard; can't rely on it. fallback to '*'
+                target = '*';
+            }
+
+            // Post token to parent window
+            window.parent.postMessage(msg, target);
+
+            // Also store in sessionStorage so parent can read token if same-origin (not the case for cross-domain)
+            try { sessionStorage.setItem('lastRecaptchaToken', token); } catch (e) { /* ignore */ }
+
+        } catch (err) {
+            console.error('onRecaptchaSuccess error', err);
+        }
+    }
+
+    // If the parent wants to request the latest token, it can send a message {type:'request-token'}
+    window.addEventListener('message', function(event) {
+        try {
+            // OPTIONAL: enforce allowed origin of parent
+            if (allowedOrigin && event.origin !== allowedOrigin) return;
+
+            const data = event.data || {};
+            if (data && data.type === 'request-token') {
+                const token = sessionStorage.getItem('lastRecaptchaToken') || null;
+                window.parent.postMessage({ type: 'recaptcha-token', token: token, nonce: nonce }, allowedOrigin || '*');
+            }
+        } catch (e) {
+            // ignore
+        }
+    });
+
+    // Continue button behavior if user clicks inside iframe (useful if embedded same-origin)
+    document.getElementById('continue-btn').addEventListener('click', function() {
+        if (!this.disabled) {
+            // If embedded as iframe, try to notify parent that user clicked continue
+            try {
+                window.parent.postMessage({ type: 'recaptcha-continue', nonce: nonce }, allowedOrigin || '*');
+            } catch (e) {}
+            // Default local redirect (in iframe this will navigate iframe only)
+            window.location.href = 'apply.html';
+        }
+    });
+
+    // DEV helper: if running on localhost allow quick enable (kept from original)
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        console.log('Development environment detected - enabling quick testing mode');
+        const testBtn = document.createElement('button');
+        testBtn.style.position = 'fixed';
+        testBtn.style.bottom = '10px';
+        testBtn.style.right = '10px';
+        testBtn.style.padding = '5px';
+        testBtn.style.fontSize = '10px';
+        testBtn.style.opacity = '0.5';
+        testBtn.textContent = 'Skip verification (dev only)';
+        testBtn.addEventListener('click', function() {
+            sessionStorage.setItem('captchaVerified', 'true');
+            localStorage.setItem('devModeSkipVerification', 'true');
+            window.location.href = 'nike.html';
+        });
+        document.body.appendChild(testBtn);
+    }
+    </script>
+</body>
+</html>

