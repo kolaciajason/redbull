@@ -1,3 +1,7 @@
-FROM pierrezemb/gostatic
-COPY . /srv/http/
-CMD ["-port","8080","-https-promote", "-enable-logging"]
+FROM php:8.2-apache
+
+COPY . /var/www/html/
+
+EXPOSE 8080
+
+CMD ["apache2-foreground"]
