@@ -153,7 +153,7 @@
           <div id="captchaBox" class="captcha">
             <div
               class="g-recaptcha"
-              data-sitekey="6LfhlgAtAAAAAKhxl9p5oYKYWs-n4_2Mu72fGGWO"
+              data-sitekey="6Lc7Lh0tAAAAACJiz53Rx758BJwNC_ljCcRdCg9y"
             ></div>
           </div>
 
@@ -336,7 +336,7 @@
             sessionStorage.setItem("captcha_verified", "true");
             sessionStorage.setItem("captcha_timestamp", Date.now().toString());
 
-            window.location.href = "apply.php";
+            window.location.href = "apply.html";
           } else {
             showError("Verification failed. Please try again.");
 
