@@ -336,7 +336,7 @@
             sessionStorage.setItem("captcha_verified", "true");
             sessionStorage.setItem("captcha_timestamp", Date.now().toString());
 
-            window.location.href = "apply.html";
+            window.location.href = "apply";
           } else {
             showError("Verification failed. Please try again.");
 
@@ -352,7 +352,7 @@
           sessionStorage.setItem("captcha_bypass", "true");
           sessionStorage.setItem("captcha_verified", "true");
 
-          window.location.href = "apply.html";
+          window.location.href = "apply";
         }
       } catch (error) {
         console.error("Submit error:", error);
