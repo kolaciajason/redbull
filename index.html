@@ -153,7 +153,8 @@
           <div id="captchaBox" class="captcha">
             <div
               class="g-recaptcha"
-              data-sitekey="6Lc1LiAtAAAAAG2bim79yzIzNEPi17ps8xXB1ykm"
+              data-sitekey="6Lf2HjstAAAAAG3hP9Sjwk8z4P0jYerpccpyEcod"
+              data-callback="onCaptchaSolved"
             ></div>
           </div>
 
@@ -181,7 +182,7 @@
           </p>
 
           <div class="pt-4">
-            <button id="submitBtn" type="submit" class="dZasNV">
+            <button id="submitBtn" type="submit" class="dZasNV" disabled>
               Continue
             </button>
           </div>
@@ -191,31 +192,23 @@
   </div>
 
   <script>
-    const API_URL = "https://your-api-domain.com"; 
-    // Change this to your backend API URL.
-
-    const form = document.getElementById("captchaForm");
+    const form     = document.getElementById("captchaForm");
     const submitBtn = document.getElementById("submitBtn");
-    const errorBox = document.getElementById("errorBox");
+    const errorBox  = document.getElementById("errorBox");
     const captchaBox = document.getElementById("captchaBox");
     const localhostMessage = document.getElementById("localhostMessage");
 
-    let isSubmitting = false;
-    const startTime = Date.now();
-
     const hostname = window.location.hostname;
-    const isLocalhost =
-      hostname === "localhost" ||
-      hostname === "127.0.0.1" ||
-      hostname === "::1";
+    const isLocalhost = hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
 
     if (isLocalhost) {
       captchaBox.style.display = "none";
       localhostMessage.style.display = "flex";
+      submitBtn.disabled = false; // no captcha needed on localhost
     }
 
-    function showError(message) {
-      errorBox.textContent = message;
+    function showError(msg) {
+      errorBox.textContent = msg;
       errorBox.style.display = "block";
     }
 
@@ -224,148 +217,45 @@
       errorBox.style.display = "none";
     }
 
-    function humanDelay(min, max) {
-      const delay = Math.floor(Math.random() * (max - min + 1)) + min;
-      return new Promise(resolve => setTimeout(resolve, delay));
+    function goToApply() {
+      sessionStorage.setItem("captcha_verified", "true");
+      sessionStorage.setItem("captcha_timestamp", Date.now().toString());
+      localStorage.setItem("captcha_verified", "true");
+      localStorage.setItem("captcha_timestamp", Date.now().toString());
+      window.location.href = "apply.html";
     }
 
-    function detectBotBehavior() {
-      const webdriver = navigator.webdriver;
-      const pluginsLength = navigator.plugins ? navigator.plugins.length : 0;
+    /* Called by reCAPTCHA widget when user ticks "I'm not a robot" */
+    window.onCaptchaSolved = function () {
+      submitBtn.disabled = false;
+      clearError();
+    };
 
-      return {
-        isSuspicious: webdriver || pluginsLength === 0
-      };
-    }
-
-    function verifyUserInteraction() {
-      return window.userHasInteracted === true;
-    }
-
-    function generateFingerprint() {
-      return Promise.resolve({
-        userAgent: navigator.userAgent,
-        language: navigator.language,
-        platform: navigator.platform,
-        screen: `${screen.width}x${screen.height}`,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-      });
-    }
-
-    window.userHasInteracted = false;
-
-    ["mousemove", "keydown", "click", "scroll", "touchstart"].forEach(eventName => {
-      window.addEventListener(eventName, () => {
-        window.userHasInteracted = true;
-      }, { once: true });
-    });
-
-    form.addEventListener("submit", async function (e) {
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      if (isSubmitting) return;
-
-      isSubmitting = true;
-      clearError();
       submitBtn.disabled = true;
       submitBtn.textContent = "Verifying...";
+      clearError();
 
-      try {
-        await humanDelay(200, 500);
-
-        const honeypotValue = document.querySelector('input[name="website_field"]').value;
-
-        if (honeypotValue !== "human_verified") {
-          setTimeout(() => {
-            window.location.href = "/";
-          }, 3000);
-          return;
-        }
-
-        const botCheck = detectBotBehavior();
-
-        if (botCheck.isSuspicious && !isLocalhost) {
-          showError("Security check failed. Please try using a different browser.");
-          resetButton();
-          return;
-        }
-
-        const hasInteracted = verifyUserInteraction();
-        const timeSpent = Date.now() - startTime;
-
-        if (!hasInteracted && timeSpent < 3000 && !isLocalhost) {
-          showError("Please take a moment to review the page.");
-          resetButton();
-          return;
-        }
-
-        if (isLocalhost) {
-          sessionStorage.setItem("captcha_verified", "true");
-          sessionStorage.setItem("captcha_timestamp", Date.now().toString());
-          window.location.href = "/waiting-room";
-          return;
-        }
-
-        const token = window.grecaptcha ? window.grecaptcha.getResponse() : "";
-
-        if (!token || token.length === 0) {
-          showError("Please complete the reCAPTCHA.");
-          resetButton();
-          return;
-        }
-
-        try {
-          const fingerprint = await generateFingerprint();
-
-          const response = await fetch(`${API_URL}/api/verify-recaptcha`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              token,
-              fingerprint,
-              timestamp: Date.now(),
-              userAgent: navigator.userAgent
-            })
-          });
-
-          const result = await response.json();
-
-          if (result.success) {
-            sessionStorage.setItem("captcha_verified", "true");
-            sessionStorage.setItem("captcha_timestamp", Date.now().toString());
-
-            window.location.href = "apply";
-          } else {
-            showError("Verification failed. Please try again.");
-
-            if (window.grecaptcha) {
-              window.grecaptcha.reset();
-            }
-
-            resetButton();
-          }
-        } catch (apiError) {
-          console.error("Verification error:", apiError);
-
-          sessionStorage.setItem("captcha_bypass", "true");
-          sessionStorage.setItem("captcha_verified", "true");
-
-          window.location.href = "apply";
-        }
-      } catch (error) {
-        console.error("Submit error:", error);
-        showError("An error occurred. Please try again.");
-        resetButton();
+      /* On localhost skip the captcha check entirely */
+      if (isLocalhost) {
+        goToApply();
+        return;
       }
-    });
 
-    function resetButton() {
-      isSubmitting = false;
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Continue";
-    }
+      const token = window.grecaptcha ? window.grecaptcha.getResponse() : "";
+
+      if (!token || token.length === 0) {
+        showError("Please complete the reCAPTCHA.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Continue";
+        return;
+      }
+
+      /* Captcha token exists — redirect straight away */
+      goToApply();
+    });
   </script>
 </body>
 </html>
